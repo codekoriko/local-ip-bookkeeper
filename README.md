@@ -24,18 +24,22 @@ poetry add git+https://git@github.com:psychonaute/local-ip-bookkeeper.git
 `your-gist-hash` and `your-file.json` from the gist you manually created, which can be secret (private). Also CF: [gist-storage doc](https://github.com/psychonaute/gist-storage)
 
 ```python
+from dotenv import load_dotenv, find_dotenv
 from local_ip_bookkeeper.tracker import IPTracker
 
+
+load_dotenv(find_dotenv())
+
 ip_tracker = IPTracker(
-    'MSI Salticidae',
+    'your-device-id',
     'your-gist-hash',
     'your-file.json',
 )
 ip_tracker.update_ip()
 # => gist .json should have new entry
 # {
-#     "Other Device": "192.168.4.150"
-#     "MSI Salticidae": "192.168.4.155"
+#     "other-device-id": "192.168.4.150"
+#     "your-device-id": "192.168.4.155"
 # }
 ```
 
