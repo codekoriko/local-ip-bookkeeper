@@ -14,7 +14,7 @@ Keeps track of the device local ip, updating the registery in a gist. It make us
 ## Installation
 
 ```bash
-poetry add git+ssh://git@github.com:psychonaute/local-ip-bookkeeper.git
+poetry add git+https://git@github.com:psychonaute/local-ip-bookkeeper.git
 ```
 
 ## Usage
