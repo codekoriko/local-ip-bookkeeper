@@ -1,8 +1,8 @@
-import logging
-from typing import Optional
 import json
+import logging
+import socket
+from typing import Optional
 
-import netifaces as ni
 from gist_storage.manage import GistManager
 
 
@@ -11,7 +11,9 @@ class IPTracker(object):
     IPTracker class for tracking IP addresses.
 
     This class is responsible for tracking the IP address of a device and
-    updating it in a Gist.
+    updating it in a Gist. The device needs to have an internet connection to
+    be able to determine the relevant IP address among all the installed
+    interface. cf: https://stackoverflow.com/a/25850698
     """
 
     def __init__(
@@ -30,16 +32,7 @@ class IPTracker(object):
             IP addresses are stored.
             device_id (str): The ID of the device whose IP address is
             being tracked.
-            interface_uid (Optional[str], optional): The UID of the network
-            interface to use. If not specified, the default interface will
-            be used. Defaults to None.
         """
-        if interface_uid is None:
-            interface_uid = ni.gateways()['default'][ni.AF_INET][1]
-            logging.info((
-                f'No interface specified, using default: {interface_uid}\n' +
-                f'   With device ip: {self.get_device_ip(interface_uid)}',
-            ))
         self.device_id = device_id
         self.interface_uid = interface_uid
         self.gist_manager = GistManager(gist_hash, filename)
@@ -60,14 +53,9 @@ class IPTracker(object):
             self.gist_ips[self.device_id] = current_ip
             self.gist_manager.update_json({self.device_id: current_ip})
 
-    def get_device_ip(self, interface_uid: Optional[str] = None) -> str:
+    def get_device_ip(self) -> str:
         """
         Get the IP address of the device.
-
-        Args:
-            interface_uid (Optional[str], optional): The UID of the network
-            interface to use. If not specified,the interface UID specified
-            during initialization will be used.Defaults to None.
 
         Returns:
             str: The IP address of the device.
@@ -75,10 +63,9 @@ class IPTracker(object):
         Raises:
             ValueError: If no interface UID is specified.
         """
-        interface = interface_uid or self.interface_uid
-        if interface is None:
-            raise ValueError('No interface specified')
-        return ni.ifaddresses(interface).get(ni.AF_INET, [])[0]['addr']
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(('8.8.8.8', 1))  # connect() for UDP doesn't send packets
+        return s.getsockname()[0]
 
     def print_registery(self):
         """
