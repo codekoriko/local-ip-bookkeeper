@@ -2,6 +2,7 @@ import json
 import logging
 import socket
 from typing import Optional
+from dotenv import load_dotenv, find_dotenv
 
 from gist_storage.manage import GistManager
 
@@ -35,6 +36,7 @@ class IPTracker(object):
         """
         self.device_id = device_id
         self.interface_uid = interface_uid
+        load_dotenv(find_dotenv())
         self.gist_manager = GistManager(gist_hash, filename)
         try:
             self.gist_ips = self.gist_manager.fetch_json()
