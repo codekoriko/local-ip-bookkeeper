@@ -1,9 +1,10 @@
 import json
 import logging
 import socket
+from pathlib import Path
 from typing import Optional
-from dotenv import load_dotenv, find_dotenv
 
+from dotenv import find_dotenv, load_dotenv
 from gist_storage.manage import GistManager
 
 
@@ -82,3 +83,16 @@ class IPTracker(object):
         """
         for device_id, ip in self.gist_ips.items():
             print(f'{device_id}: {ip}')
+
+    def save_ip_to_disk(self):
+        """
+        Save each IP address in the registry to the disk.
+
+        We save them to separate files for easy use in bash scripts.
+        """
+        directory = Path('local_ips')
+        directory.mkdir(exist_ok=True)
+        for hostname, ip in self.gist_ips.items():
+            with open(directory / hostname, 'w') as file:
+                file.write(ip)
+            logging.info(f'IP for {hostname} saved to disk.')
