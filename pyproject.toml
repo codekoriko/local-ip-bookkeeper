@@ -1,0 +1,47 @@
+[tool.poetry]
+name = "local-ip-bookkeeper"
+description = "keep track of device local ips, storing them in a gist (public) encrypted"
+version = "0.1.0"
+license = "MIT"
+
+authors = []
+
+readme = "README.md"
+
+repository = "https://github.com/psychonaute/local-ip-bookkeeper"
+
+keywords = []
+
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pygithub = "^2.1.1"
+netifaces = "^0.11.0"
+gist-storage = { git = "git@github.com:psychonaute/gist-storage.git", rev = "master", optional = true, extras = [
+  "encryption",
+] }
+
+[tool.poetry.group.test.dependencies]
+nitpick = "^0.32"
+
+safety = "^2.3"
+
+pytest = "^7.1"
+pytest-cov = "^4.0"
+pytest-randomly = "^3.12"
+
+[build-system]
+requires = ["poetry-core>=1.1.13"]
+build-backend = "poetry.core.masonry.api"
+
+# add third party modules twhom stud file can't be found
+# cf: Python - typing.xmind
+[[tool.mypy.overrides]]
+module = ["netifaces"]
+ignore_missing_imports = true
