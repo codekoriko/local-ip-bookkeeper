@@ -497,24 +497,22 @@ six = ">=1.8.0"
 name = "gist-storage"
 version = "0.1.0"
 description = "A versatile tool designed to store and share data via gists, ideal for synchronizing information across devices. Since gists are publicly available, it includes an option for encryption to ensure security."
-optional = true
+optional = false
 python-versions = "^3.11"
 files = []
 develop = false
 
 [package.dependencies]
-cryptography = {version = "^42.0.2", optional = true}
 pygithub = "^2.1.1"
-python-dotenv = {version = "^1.0.1", optional = true}
 
 [package.extras]
 encryption = ["cryptography (>=42.0.2,<43.0.0)", "python-dotenv (>=1.0.1,<2.0.0)"]
 
 [package.source]
 type = "git"
-url = "git@github.com:psychonaute/gist-storage.git"
-reference = "master"
-resolved_reference = "fe9c70c5e17f8a3b1a2a76b8edfc9ecd3264a2ba"
+url = "https://github.com/psychonaute/gist-storage.git"
+reference = "HEAD"
+resolved_reference = "2b92dc6dc837ff6c657244d4c8173134d4836d64"
 
 [[package]]
 name = "identify"
@@ -923,20 +921,6 @@ files = [
 pytest = "*"
 
 [[package]]
-name = "python-dotenv"
-version = "1.0.1"
-description = "Read key-value pairs from a .env file and set them as environment variables"
-optional = true
-python-versions = ">=3.8"
-files = [
-    {file = "python-dotenv-1.0.1.tar.gz", hash = "sha256:e324ee90a023d808f1959c46bcbc04446a10ced277783dc6ee09987c37ec10ca"},
-    {file = "python_dotenv-1.0.1-py3-none-any.whl", hash = "sha256:f7b63ef50f1b690dddf550d03497b66d609393b40b564ed0d674909a68ebf16a"},
-]
-
-[package.extras]
-cli = ["click (>=5.0)"]
-
-[[package]]
 name = "python-slugify"
 version = "8.0.3"
 description = "A Python slugify application that also handles Unicode"
@@ -1329,4 +1313,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "8f5c131ad6b1c7172a8cd24e9bd825d63faf00ecd4236815987a9ae40e930a30"
+content-hash = "a78f6be61ac8652576ac4b5f3e9d9ea1211f94f1bdb429d8cbde865336dfb265"
