@@ -23,7 +23,6 @@ class IPTracker(object):
         device_id: str,
         gist_hash: str,
         filename: str,
-        interface_uid: Optional[str] = None,
     ):
         """
         Initialize an IPTracker object.
@@ -36,7 +35,6 @@ class IPTracker(object):
             being tracked.
         """
         self.device_id = device_id
-        self.interface_uid = interface_uid
         load_dotenv(find_dotenv())
         self.gist_manager = GistManager(gist_hash, filename)
         try:
