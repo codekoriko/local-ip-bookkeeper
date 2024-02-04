@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "local-ip-bookkeeper"
 description = "keep track of device local ips, storing them in a gist (public) encrypted"
-version = "0.1.4"
+version = "0.1.5"
 license = "MIT"
 
 authors = []

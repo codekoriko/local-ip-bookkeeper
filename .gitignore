@@ -216,4 +216,7 @@ fabric.properties
 # pyenv
 .python-version
 
+# perso to ignore
 sandbox.py
+local_ips/
+
