@@ -51,9 +51,16 @@ class IPTracker(object):
         Update the IP address of the device in the Gist if it has changed.
         """
         current_ip = self.get_device_ip()
-        if self.gist_ips.get(self.device_id) != current_ip:
+        if self.gist_ips.get(self.device_id) == current_ip:
+            logging.info(f'IP address of {self.device_id} has not changed.')
+        else:
             self.gist_ips[self.device_id] = current_ip
             self.gist_manager.update_json({self.device_id: current_ip})
+            logging.info((
+                f'IP address of {self.device_id} has changed from ' +
+                f'{self.gist_ips[self.device_id]} ' +
+                f'to {current_ip}. Gist was updated.',
+            ))
 
     def get_device_ip(self) -> str:
         """
