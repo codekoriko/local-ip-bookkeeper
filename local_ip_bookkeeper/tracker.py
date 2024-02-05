@@ -2,6 +2,7 @@ import json
 import logging
 import socket
 from pathlib import Path
+from typing import Dict
 
 from dotenv import find_dotenv, load_dotenv
 from gist_storage.manage import GistManager
@@ -36,28 +37,38 @@ class IPTracker(object):
         self.device_id = device_id
         load_dotenv(find_dotenv())
         self.gist_manager = GistManager(gist_hash, filename)
+        self.ip_registery: Dict[str, str] = {}
+        self.fetch_ip_registry()
+
+    def sync_ip_registry(self):
+        """
+        Synchronizes the IP registry by fetching the latest IP addresses,
+        comparing them with the current device's IP address, and updating
+        the registry if necessary.
+        """
+        self.fetch_ip_registry()
+        current_ip = self.get_device_ip()
+        if self.ip_registery.get(self.device_id) == current_ip:
+            logging.info(f'IP address of {self.device_id} has not changed.')
+        else:
+            self.ip_registery[self.device_id] = current_ip
+            self.gist_manager.update_json({self.device_id: current_ip})
+            logging.info((
+                f'IP address of {self.device_id} has changed from ' +
+                f'{self.ip_registery[self.device_id]} ' +
+                f'to {current_ip}. Gist was updated.',
+            ))
+
+    def fetch_ip_registry(self):
+        """
+        Fetch the IP registry from the Gist.
+        """
         try:
-            self.gist_ips = self.gist_manager.fetch_json()
+            self.ip_registery = self.gist_manager.fetch_json()
         except json.decoder.JSONDecodeError as error:
             raise ValueError((
                 'Check the file content in the gist ' +
                 f'it seems not to be a valid json: {error}'
-            ))
-
-    def update_ip(self):
-        """
-        Update the IP address of the device in the Gist if it has changed.
-        """
-        current_ip = self.get_device_ip()
-        if self.gist_ips.get(self.device_id) == current_ip:
-            logging.info(f'IP address of {self.device_id} has not changed.')
-        else:
-            self.gist_ips[self.device_id] = current_ip
-            self.gist_manager.update_json({self.device_id: current_ip})
-            logging.info((
-                f'IP address of {self.device_id} has changed from ' +
-                f'{self.gist_ips[self.device_id]} ' +
-                f'to {current_ip}. Gist was updated.',
             ))
 
     def get_device_ip(self) -> str:
@@ -74,12 +85,6 @@ class IPTracker(object):
         s.connect(('8.8.8.8', 1))  # connect() for UDP doesn't send packets
         return s.getsockname()[0]
 
-    def get_registery(self):
-        """
-        Return the registry of IP addresses.
-        """
-        return self.gist_ips
-
     def save_ip_to_disk(self):
         """
         Save each IP address in the registry to the disk.
@@ -88,7 +93,7 @@ class IPTracker(object):
         """
         directory = Path('local_ips')
         directory.mkdir(exist_ok=True)
-        for hostname, ip in self.gist_ips.items():
+        for hostname, ip in self.ip_registery.items():
             with open(directory / hostname, 'w') as file:
                 file.write(ip)
             logging.info(f'IP for {hostname} saved to disk.')
