@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "local-ip-bookkeeper"
 description = "keep track of device local ips, storing them in a gist (public) encrypted"
-version = "0.1.7"
+version = "0.1.8"
 license = "MIT"
 
 authors = []
@@ -21,7 +21,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.11"
-gist-storage = {git = "https://github.com/psychonaute/gist-storage.git"}
+gist-storage = { git = "https://git@github.com/psychonaute/gist-storage.git", tag = "0.2.0"}
 python-dotenv = "^1.0.1"
 
 [tool.poetry.group.test.dependencies]
