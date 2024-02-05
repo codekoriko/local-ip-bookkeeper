@@ -21,7 +21,6 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.11"
-pygithub = "^2.1.1"
 gist-storage = {git = "https://github.com/psychonaute/gist-storage.git"}
 python-dotenv = "^1.0.1"
 

@@ -2,7 +2,6 @@ import json
 import logging
 import socket
 from pathlib import Path
-from typing import Optional
 
 from dotenv import find_dotenv, load_dotenv
 from gist_storage.manage import GistManager
