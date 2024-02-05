@@ -21,7 +21,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.11"
-gist-storage = { git = "https://git@github.com/psychonaute/gist-storage.git", tag = "0.2.0"}
+gist-storage = { git = "https://github.com/codeCoRepo/gist-storage.git"}
 python-dotenv = "^1.0.1"
 
 [tool.poetry.group.test.dependencies]
