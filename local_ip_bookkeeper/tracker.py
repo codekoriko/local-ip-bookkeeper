@@ -74,12 +74,11 @@ class IPTracker(object):
         s.connect(('8.8.8.8', 1))  # connect() for UDP doesn't send packets
         return s.getsockname()[0]
 
-    def print_registery(self):
+    def get_registery(self):
         """
-        Print the current registry of IP addresses.
+        Return the registry of IP addresses.
         """
-        for device_id, ip in self.gist_ips.items():
-            print(f'{device_id}: {ip}')
+        return self.gist_ips
 
     def save_ip_to_disk(self):
         """
