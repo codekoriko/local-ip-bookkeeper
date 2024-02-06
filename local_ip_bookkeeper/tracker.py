@@ -22,7 +22,7 @@ class IPTracker(object):
         device_id: str,
         gist_hash: str,
         filename: str,
-    ):
+    ) -> None:
         """
         Initialize an IPTracker object.
 
@@ -38,7 +38,7 @@ class IPTracker(object):
         self.ip_registery: Dict[str, str] = {}
         self.fetch_ip_registry()
 
-    def sync_ip_registry(self):
+    def sync_ip_registry(self) -> None:
         """
         Synchronizes the IP registry by fetching the latest IP addresses,
         comparing them with the current device's IP address, and updating
@@ -57,7 +57,7 @@ class IPTracker(object):
                 f'to {current_ip}. Gist was updated.',
             ))
 
-    def fetch_ip_registry(self):
+    def fetch_ip_registry(self) -> None:
         """
         Fetch the IP registry from the Gist.
         """
@@ -83,7 +83,7 @@ class IPTracker(object):
         s.connect(('8.8.8.8', 1))  # connect() for UDP doesn't send packets
         return s.getsockname()[0]
 
-    def save_ip_to_disk(self):
+    def save_ip_to_disk(self) -> None:
         """
         Save each IP address in the registry to the disk.
 
