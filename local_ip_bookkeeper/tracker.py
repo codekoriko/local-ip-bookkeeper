@@ -4,7 +4,6 @@ import socket
 from pathlib import Path
 from typing import Dict
 
-from dotenv import find_dotenv, load_dotenv
 from gist_storage.manage import GistManager
 
 
@@ -35,7 +34,6 @@ class IPTracker(object):
             being tracked.
         """
         self.device_id = device_id
-        load_dotenv(find_dotenv())
         self.gist_manager = GistManager(gist_hash, filename)
         self.ip_registery: Dict[str, str] = {}
         self.fetch_ip_registry()
