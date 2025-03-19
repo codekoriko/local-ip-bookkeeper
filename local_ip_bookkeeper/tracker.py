@@ -35,7 +35,11 @@ class IPTracker(object):
             being tracked.
         """
         self.device_id = device_id
-        self.gist_manager = GistManager(gist_hash, filename, disable_encryption=disable_encryption)
+        self.gist_manager = GistManager(
+            gist_hash,
+            filename,
+            disable_encryption=disable_encryption,
+        )
         self.ip_registery: Dict[str, str] = {}
         self.fetch_ip_registry()
 
